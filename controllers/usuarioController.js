@@ -1,9 +1,10 @@
 import Usuario from "../models/Usuario.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
+import emailRegistro from "../helpers/emailRegisto.js";
 
 const registrar = async (req, res) => {
-  const { email } = req.body;
+  const { email, nombre } = req.body;
 
   // prevenir usuarios duplicados
   const existeUsuario = await Usuario.findOne({ email });
@@ -17,6 +18,14 @@ const registrar = async (req, res) => {
     // GUardar un NUevo Usuario
     const usuario = new Usuario(req.body);
     const usuarioGuardado = await usuario.save();
+
+    // enviar email al usuario para ser confirmado
+    emailRegistro({
+      email,
+      nombre,
+      token: usuarioGuardado.token
+    })
+
     res.json(usuarioGuardado);
   } catch (error) {
     console.log(error);
