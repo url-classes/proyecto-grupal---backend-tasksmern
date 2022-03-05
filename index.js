@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import UsuarioRoutes from "./routes/usuarioRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import path from "path";
+import {fileURLToPath} from 'url';
 
 
 const app = express();
@@ -10,6 +14,25 @@ app.use(express.json());
 dotenv.config();
 
 conectarDB();
+
+// swagger setup
+const __filename = fileURLToPath(import.meta.url);
+const swaggerSpec = {
+  definition: {
+    openapi: "3.0.3",
+    info: {
+      title: "Node MongoDB API",
+      version: "1.0.0"
+    },
+    servers: [
+      {
+        url: "http://localhost:8000"
+      } 
+    ]
+  },
+  
+  apis: [`${path.join(path.dirname(__filename), "./routes/*.js")}`],
+};
 
 const dominiosPermitidos = ['http://localhost:3000']
 const corsOptions = {
@@ -23,9 +46,15 @@ const corsOptions = {
   }
 }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use('/api/usuarios',UsuarioRoutes);
+// Middleware for swagger
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJSDoc(swaggerSpec))
+);
 
 const PORT = process.env.PORT || 8000;
 
