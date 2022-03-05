@@ -24,8 +24,8 @@ const registrar = async (req, res) => {
     emailRegistro({
       email,
       nombre,
-      token: usuarioGuardado.token
-    })
+      token: usuarioGuardado.token,
+    });
 
     res.json(usuarioGuardado);
   } catch (error) {
@@ -35,7 +35,7 @@ const registrar = async (req, res) => {
 
 const perfil = (req, res) => {
   const { usuario } = req;
-  res.json({ usuario });
+  res.json(usuario);
 };
 
 const confirmar = async (req, res) => {
@@ -79,7 +79,12 @@ const autenticar = async (req, res) => {
   if (await usuario.comprobarPassword(password)) {
     // autenticar
 
-    res.json({ token: generarJWT(usuario._id) });
+    res.json({
+      _id: usuario._id,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      token: generarJWT(usuario._id),
+    });
     console.log("password correcto");
   } else {
     const error = new Error("El password es incorrecto");
@@ -100,13 +105,12 @@ const olvidePassword = async (req, res) => {
     existeUsuario.token = generarId();
     await existeUsuario.save();
 
-
     //Creacion del correo
     emailOlvidePassword({
       email,
       nombre: existeUsuario.nombre,
-      token: existeUsuario.token
-    })
+      token: existeUsuario.token,
+    });
 
     // Enviar Email con instrucciones
     res.json({ msg: "Hemos enviado un email con las instrucciones" });
