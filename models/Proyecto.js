@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const proyectosSchema = mongoose.Schema(
+const proyectoSchema = mongoose.Schema(
   {
     nombre: {
       type: String,
@@ -23,6 +23,7 @@ const proyectosSchema = mongoose.Schema(
     },
     creador: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: "Usuario"
     },
     colaboradores: [
@@ -43,4 +44,5 @@ const proyectosSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Proyectos', proyectosSchema);
+const Proyecto = mongoose.model("Proyecto", proyectoSchema);
+export default Proyecto;

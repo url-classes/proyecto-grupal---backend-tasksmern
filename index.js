@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import UsuarioRoutes from "./routes/usuarioRoutes.js";
+import ProyectoRoutes from "./routes/proyectosRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
@@ -48,7 +49,8 @@ const corsOptions = {
 
 // app.use(cors(corsOptions));
 
-app.use('/api/usuarios',UsuarioRoutes);
+app.use('/api/usuarios', UsuarioRoutes);
+app.use('/api/proyectos', ProyectoRoutes);
 // Middleware for swagger
 app.use(
   "/api-docs",
