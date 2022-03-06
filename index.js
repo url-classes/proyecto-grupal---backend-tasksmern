@@ -22,7 +22,7 @@ const swaggerSpec = {
   definition: {
     openapi: "3.0.3",
     info: {
-      title: "Node MongoDB API",
+      title: "Tasks-Mern Documentation",
       version: "1.0.0"
     },
     servers: [

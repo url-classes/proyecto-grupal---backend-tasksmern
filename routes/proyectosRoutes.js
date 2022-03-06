@@ -2,7 +2,9 @@ import express from "express";
 import {
   crearProyecto,
   obtenerProyecto,
-  obtenerTodosLosProyectos
+  obtenerProyectoPorCreador,
+  obtenerTodosLosProyectos,
+  actualizarProyecto
 } from "../controllers/proyectosController.js";
 const router = express.Router();
 
@@ -99,6 +101,33 @@ router.post("/", crearProyecto);
  */
 router.get("/:id", obtenerProyecto);
 
+/**
+ * @swagger
+ * /api/proyectos/user/{creadorId}:
+ *  get:
+ *    summary: Endpoint creado para obtener todos los proyectos existentes creados por un usuario
+ *    tags: [Proyecto]
+ *    parameters:
+ *      - in: path
+ *        name: creadorId
+ *        schema:   
+ *          type: string
+ *        required: true
+ *        description: ObjectId del usuario 
+ *    responses:
+ *      200:
+ *        description: Mostrando proyectos del usuario ingresado
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items: 
+ *                $ref: '#/components/schemas/Proyecto'
+ *      404:
+ *        description: No se encontraron proyectos para este usuario
+ */
+router.get("/user/:creadorId", obtenerProyectoPorCreador);
+
 // requerira permisos de admin
 /**
  * @swagger
@@ -108,7 +137,7 @@ router.get("/:id", obtenerProyecto);
  *    tags: [Proyecto]
  *    responses:
  *      200:
- *        description: Mostrando users
+ *        description: Mostrando proyectos
  *        content:
  *          application/json:
  *            schema:
@@ -117,5 +146,33 @@ router.get("/:id", obtenerProyecto);
  *                $ref: '#/components/schemas/Proyecto'
  */
 router.get("/", obtenerTodosLosProyectos);
+
+/**
+ * @swagger
+ * /api/proyectos/{id}:
+ *  put:
+ *    summary: Endpoint creado para encontrar y actualizar un proyecto en base a la id y el body dados
+ *    tags: [Proyecto]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:   
+ *          type: string
+ *        required: true
+ *        description: Id del proyecto a actualizr
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Proyecto'
+ *    responses:
+ *      200:
+ *        description: Proyecto actualizado correctamente
+ *      404:
+ *        description: Proyecto no encontrado
+ */
+router.put("/:id", actualizarProyecto);
 
 export default router;
