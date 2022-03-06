@@ -1,7 +1,9 @@
 import Proyecto from "../models/Proyecto.js";
+import Usuario from "../models/Usuario.js";
 
 const crearProyecto = async (req, res) => {
   const proyecto = new Proyecto(req.body);
+  proyecto.creador = req.Usuario._id;
   await proyecto
     .save()
     .then((data) => res.json(data))
