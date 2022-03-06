@@ -12,8 +12,10 @@ const obtenerProyecto = async (req, res) => {
   const { id } = req.params;
   await Proyecto
     .findById(id)
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => {
+    if(!data) return res.status(404).send('Proyecto no encontrado')
+    res.json(data)})
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 const obtenerTodosLosProyectos = async (req, res) => {
