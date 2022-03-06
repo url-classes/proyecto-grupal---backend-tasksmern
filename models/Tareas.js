@@ -38,6 +38,15 @@ const tareaSchema = mongoose.Schema(
       type: Number,
      required:true,
     },
+    responsables:{
+      //type: mongoose.Schema.Types.ObjectId,
+      //ref: "Usuario",
+      //default: null,
+      type: Array,
+     required:true,
+    },
+
+
   },
   {
     timestamps: true,

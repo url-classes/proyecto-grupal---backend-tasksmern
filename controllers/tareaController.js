@@ -33,6 +33,7 @@ const actualizar = async (req, res) => {
   const {fechaEntrega } = req.body;
   const { prioridad } = req.body;
   const { _id } = req.body;
+  const { responsables } = req.body;
 
   
   // prevenir tareas duplicadas
@@ -45,17 +46,16 @@ const actualizar = async (req, res) => {
   }
   const existeTarea =  await Tareas.findOne({proyecto: { $eq: proyecto} ,nombre: { $eq: nombre}});
 
-  if (existeTarea) {
-    const error = new Error("La tarea ya existe");
-    return res.status(400).json({ msg: error.message });
+  if (!existeTarea) {
+    try {
+      // Nombres iguales
+      tarea.nombre = nombre
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  try {
-    // GUardar tareas
-    tarea.nombre = nombre
-  } catch (error) {
-    console.log(error);
-  }
+ 
   try {
     // GUardar tareas
   
@@ -65,6 +65,11 @@ const actualizar = async (req, res) => {
   }
   try {
     tarea.estado = estado
+  } catch (error) {
+    console.log(error);
+  }
+  try {
+    tarea.responsables = responsables
   } catch (error) {
     console.log(error);
   }
