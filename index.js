@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import UsuarioRoutes from "./routes/usuarioRoutes.js";
-
+import TareaRouters from "./routes/tareaRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -23,10 +23,10 @@ const corsOptions = {
   }
 }
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 app.use('/api/usuarios',UsuarioRoutes);
-
+app.use('/api/tareas',TareaRouters);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
