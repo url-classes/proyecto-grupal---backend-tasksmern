@@ -4,7 +4,8 @@ import {
   obtenerProyecto,
   obtenerProyectoPorCreador,
   obtenerTodosLosProyectos,
-  actualizarProyecto
+  actualizarProyecto,
+  eliminarProyecto
 } from "../controllers/proyectosController.js";
 const router = express.Router();
 
@@ -159,7 +160,7 @@ router.get("/", obtenerTodosLosProyectos);
  *        schema:   
  *          type: string
  *        required: true
- *        description: Id del proyecto a actualizr
+ *        description: ObjectId del proyecto a actualizar
  *    requestBody:
  *      required: true
  *      content:
@@ -174,5 +175,26 @@ router.get("/", obtenerTodosLosProyectos);
  *        description: Proyecto no encontrado
  */
 router.put("/:id", actualizarProyecto);
+
+/**
+ * @swagger
+ * /api/proyectos/{id}:
+ *  delete:
+ *    summary: Endpoint creado para eliminar un proyecto por id
+ *    tags: [Proyecto]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:   
+ *          type: string
+ *        required: true
+ *        description: ObjectId del proyecto a eliminar
+ *    responses:
+ *      200:
+ *        description: Proyeco eliminado correctamente
+ *      404:
+ *        description: Proyecto no encontrado 
+ */
+router.delete("/:id", eliminarProyecto);
 
 export default router;

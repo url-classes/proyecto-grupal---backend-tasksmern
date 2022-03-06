@@ -51,16 +51,27 @@ const actualizarProyecto = async (req, res) => {
     if (!value) {
       delete camposActualizar[key];
     }
-  };
+  }
   await Proyecto.findOneAndUpdate(
     { _id: id },
     { $set: { ...camposActualizar } },
-    { runValidators: true, new: true })
+    { runValidators: true, new: true }
+  )
     .then((data) => {
       if (!data) return res.status(404).send("Proyecto no encontrado");
       res.json(data);
     })
     .catch((error) => res.status(400).json({ message: error }));
+};
+
+const eliminarProyecto = async (req, res) => {
+  const { id } = req.params;
+  await Proyecto.deleteOne({ _id: id })
+    .then((data) => {
+      if (data.deletedCount<1) return res.status(404).send("Proyecto no encontrado");
+      res.json(data);
+    })
+    .catch((error) => res.json({ message: error }));
 };
 
 export {
@@ -69,4 +80,5 @@ export {
   obtenerProyectoPorCreador,
   obtenerTodosLosProyectos,
   actualizarProyecto,
+  eliminarProyecto,
 };
