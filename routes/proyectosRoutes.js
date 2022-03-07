@@ -7,6 +7,7 @@ import {
   actualizarProyecto,
   eliminarProyecto
 } from "../controllers/proyectosController.js";
+import checkAuth from "../middleware/authMiddleware.js"
 const router = express.Router();
 
 /**
@@ -74,7 +75,7 @@ const router = express.Router();
  *      200:
  *        description: Nuevo proyecto creado correctamente
  */
-router.post("/", crearProyecto);
+router.post("/", checkAuth, crearProyecto);
 
 /**
  * @swagger
@@ -100,7 +101,7 @@ router.post("/", crearProyecto);
  *      404:
  *        description: Proyecto no encontrado
  */
-router.get("/:id", obtenerProyecto);
+router.get("/:id", checkAuth, obtenerProyecto);
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/user/:creadorId", obtenerProyectoPorCreador);
  *              items: 
  *                $ref: '#/components/schemas/Proyecto'
  */
-router.get("/", obtenerTodosLosProyectos);
+router.get("/", checkAuth,  obtenerTodosLosProyectos);
 
 /**
  * @swagger
@@ -174,7 +175,7 @@ router.get("/", obtenerTodosLosProyectos);
  *      404:
  *        description: Proyecto no encontrado
  */
-router.put("/:id", actualizarProyecto);
+router.put("/:id", checkAuth, actualizarProyecto);
 
 /**
  * @swagger
@@ -195,6 +196,6 @@ router.put("/:id", actualizarProyecto);
  *      404:
  *        description: Proyecto no encontrado 
  */
-router.delete("/:id", eliminarProyecto);
+router.delete("/:id", checkAuth, eliminarProyecto);
 
 export default router;
