@@ -2,7 +2,6 @@ import express from "express";
 import {
   crearProyecto,
   obtenerProyecto,
-  obtenerProyectoPorCreador,
   obtenerTodosLosProyectos,
   actualizarProyecto,
   eliminarProyecto
@@ -102,33 +101,6 @@ router.post("/", checkAuth, crearProyecto);
  *        description: Proyecto no encontrado
  */
 router.get("/:id", checkAuth, obtenerProyecto);
-
-/**
- * @swagger
- * /api/proyectos/user/{creadorId}:
- *  get:
- *    summary: Endpoint creado para obtener todos los proyectos existentes creados por un usuario
- *    tags: [Proyecto]
- *    parameters:
- *      - in: path
- *        name: creadorId
- *        schema:   
- *          type: string
- *        required: true
- *        description: ObjectId del usuario 
- *    responses:
- *      200:
- *        description: Mostrando proyectos del usuario ingresado
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items: 
- *                $ref: '#/components/schemas/Proyecto'
- *      404:
- *        description: No se encontraron proyectos para este usuario
- */
-router.get("/user/:creadorId", obtenerProyectoPorCreador);
 
 // requerira permisos de admin
 /**
