@@ -29,18 +29,6 @@ const obtenerProyecto = async (req, res) => {
   res.json(proyecto)
 };
 
-//eliminar
-const obtenerProyectoPorCreador = async (req, res) => {
-  const { creadorId } = req.params;
-  await Proyecto.find({ creador: creadorId })
-    .then((data) => {
-      if (!data.length)
-        return res.status(404).send("Este usuario no tiene proyectos");
-      res.json(data);
-    })
-    .catch((error) => res.status(400).json({ message: error }));
-};
-
 //para obtener los proyectos de un usuario
 const obtenerTodosLosProyectos = async (req, res) => {
   await Proyecto.find().where('creador').equals(req.usuario)
@@ -103,7 +91,6 @@ const eliminarProyecto = async (req, res) => {
 export {
   crearProyecto,
   obtenerProyecto,
-  obtenerProyectoPorCreador,
   obtenerTodosLosProyectos,
   actualizarProyecto,
   eliminarProyecto,
