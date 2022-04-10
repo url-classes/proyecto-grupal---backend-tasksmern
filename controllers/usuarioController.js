@@ -153,6 +153,61 @@ const nuevoPassword = async (req, res) => {
   }
 };
 
+const actualizarPerfil = async (req, res) => {
+  const usuario = await Usuario.findById(req.params.id);
+
+  if (!usuario) {
+    const error = new Error("Hubo un error");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  const { email } = req.body;
+  if (usuario.email !== req.body.email) {
+    const existeEmail = await Usuario.findOne({ email });
+
+    if (existeEmail) {
+      const error = new Error("Ese email ya esta en uso");
+      return res.status(400).json({ msg: error.message });
+    }
+  }
+
+  try {
+    usuario.nombre = req.body.nombre;
+    usuario.email = req.body.email;
+    usuario.web = req.body.web;
+    usuario.telefono = req.body.telefono;
+
+    const usuarioActualizado = await usuario.save();
+    res.json(usuarioActualizado);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const actualizarPassword = async (req, res) => {
+  // Leer los datos
+  const { id } = req.usuario;
+  const { pwd_actual, pwd_nuevo } = req.body;
+
+  //Comprobar que el Usuario existe
+  const usuario = await Usuario.findById(id);
+  if (!usuario) {
+    const error = new Error("Hubo un error");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  if (await usuario.comprobarPassword(pwd_actual)) {
+    // Almacenar el nuevo password
+
+    usuario.password = pwd_nuevo;
+    await usuario.save();
+    res.json({ msg: "Contraseña Almacenado Correctamente" });
+  } else {
+    const error = new Error("La Contraseña Actual es Incorrecto");
+    return res.status(400).json({ msg: error.message });
+  }
+};
+
 export {
   registrar,
   perfil,
@@ -161,4 +216,6 @@ export {
   olvidePassword,
   comprobarToken,
   nuevoPassword,
+  actualizarPerfil,
+  actualizarPassword,
 };

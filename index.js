@@ -49,7 +49,7 @@ const corsOptions = {
 }
 
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use('/api/usuarios', UsuarioRoutes);
 app.use('/api/proyectos', ProyectoRoutes);
