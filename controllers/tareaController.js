@@ -1,25 +1,29 @@
 import Proyecto from "../models/Proyecto.js";
 import Tareas from "../models/Tareas.js";
-import mongoose from "mongoose";
 
 
 const crearTarea = async (req, res) => {
-  const { nombre,proyecto } = req.body;
+  const { proyecto } = req.body;
+  //buscamos si el proyecto existe
+  const existeProyecto = await Proyecto.findById(proyecto);
 
-  // prevenir tareas duplicadas
-  const existeTarea =  await Tareas.findOne({proyecto: { $eq: proyecto} ,nombre: { $eq: nombre}});
+  if (!existeProyecto) {
+    const error = new Error("El Proyecto no existe");
+    return res.status(404).json({ msg: error.message });
+  }
 
-  if (existeTarea) {
-    const error = new Error("La tarea ya existe");
-    return res.status(400).json({ msg: error.message });
+  // determinar si es el creador del proyecto
+  if (existeProyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("No tienes los permisos para añadir tareas");
+    return res.status(403).json({ msg: error.message });
   }
 
   try {
-    // GUardar tareas
-    const tareas = new Tareas(req.body);
-    const tareasGuardado = await tareas.save();
-
-    res.json(tareasGuardado);
+    const tareaAlmacenada = await Tareas.create(req.body);
+    // Almacenar el ID en el proyecto
+    existeProyecto.tareas.push(tareaAlmacenada._id);
+    await existeProyecto.save();
+    res.json(tareaAlmacenada);
   } catch (error) {
     console.log(error);
   }

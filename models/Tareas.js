@@ -9,6 +9,7 @@ const tareaSchema = mongoose.Schema(
     descripcion: {
       type: String,
       trim: true,
+      require: true,
     },
     estado: {
       type: Boolean,
@@ -16,32 +17,28 @@ const tareaSchema = mongoose.Schema(
     },
     fechaEntrega: {
       type: Date,
+      required: true,
       default: Date.now(),
     },
     prioridad: {
       type: String,
-      //required: true,
+      required: true,
       enum: ["Baja", "Media", "Alta"],
     },
     proyecto: {
      type: mongoose.Schema.Types.ObjectId,
      ref: "Proyecto",
-     //type: Number,
-     required:true,
     },
     creador_id: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+     // required: true,
       ref: "Usuario",
     },
-    responsables:[
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Usuario"
-      }
-    ],
-
-
+    completado: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Usuario",
+      default: null,
+    },
   },
   {
     timestamps: true,

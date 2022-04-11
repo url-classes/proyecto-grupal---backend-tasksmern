@@ -35,7 +35,7 @@ const proyectoSchema = mongoose.Schema(
     tareas: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Tarea"
+        ref: "Tareas"
       }
     ]
   },
