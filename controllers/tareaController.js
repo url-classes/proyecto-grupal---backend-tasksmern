@@ -65,25 +65,25 @@ const actualizar = async (req, res) => {
 };
 
 const eliminar = async (req, res) => {
-
   const { id } = req.params;
-  // prevenir tareas duplicadas
-  const existeTarea =  await Tareas.findById(id);
 
-  if (!existeTarea) {
+  const tarea = await Tarea.findById(id).populate("proyecto");
+
+  if (!tarea) {
     const error = new Error("Tarea no encontrada");
-    return res.status(400).json({ msg: error.message });
+    return res.status(404).json({ msg: error.message });
   }
-  if (existeTarea.creador_id.toString() !== req.body.creador_id.toString()) {
-    const error = new Error("Sin permiso para eliminar la tarea");
-    return res.status(403).json({msg: error.message});
+
+  if (tarea.proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no válida");
+    return res.status(403).json({ msg: error.message });
   }
 
   try {
-    // Eliminar tareas
-    await existeTarea.deleteOne()
-
-    res.json({ msg: "Tarea eliminada correctamente" });
+    const proyecto = await Proyecto.findById(tarea.proyecto);
+    proyecto.tareas.pull(tarea._id);
+    await Promise.allSettled([await proyecto.save(), await tarea.deleteOne()]);
+    res.json({ msg: "La Tarea se eliminó" });
   } catch (error) {
     console.log(error);
   }
