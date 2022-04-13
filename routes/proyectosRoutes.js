@@ -4,7 +4,10 @@ import {
   obtenerProyecto,
   obtenerTodosLosProyectos,
   actualizarProyecto,
-  eliminarProyecto
+  eliminarProyecto,
+  buscarColaborador,
+  agregarColaborador,
+  eliminarColaborador
 } from "../controllers/proyectosController.js";
 import checkAuth from "../middleware/authMiddleware.js"
 const router = express.Router();
@@ -169,5 +172,9 @@ router.put("/:id", checkAuth, actualizarProyecto);
  *        description: Proyecto no encontrado 
  */
 router.delete("/:id", checkAuth, eliminarProyecto);
+
+router.post("/colaboradores", checkAuth, buscarColaborador);
+router.post("/colaboradores/:id", checkAuth, agregarColaborador);
+router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador);
 
 export default router;
