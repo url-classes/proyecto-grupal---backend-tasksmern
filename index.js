@@ -5,6 +5,7 @@ import conectarDB from "./config/db.js";
 import UsuarioRoutes from "./routes/usuarioRoutes.js";
 import ProyectoRoutes from "./routes/proyectosRoutes.js";
 import TareaRouters from "./routes/tareaRoutes.js";
+import ChatRoutes from "./routes/chatRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
@@ -47,12 +48,12 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use("/api/usuarios", UsuarioRoutes);
 app.use("/api/proyectos", ProyectoRoutes);
 app.use("/api/tareas", TareaRouters);
-// app.use("/api/chat", TareaRouters);
+app.use("/api/chat", ChatRoutes);
 
 // Middleware for swagger
 app.use(

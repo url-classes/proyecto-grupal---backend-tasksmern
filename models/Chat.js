@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const chatSchema = mongoose.Schema(
   {
@@ -13,20 +13,20 @@ const chatSchema = mongoose.Schema(
     usuarios: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Usuario",
       },
     ],
     ultimoMensaje: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
+      ref: "Mensaje",
     },
     adminGrupo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Usuario",
     },
   },
   { timestamps: true }
 );
 
 const Chat = mongoose.model("Chat", chatSchema);
-module.exports = Chat;
+export default Chat;
