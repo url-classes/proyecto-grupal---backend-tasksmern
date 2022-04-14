@@ -136,6 +136,12 @@ const renombrarChat = async (req, res) => {
 
 const agregarUserGrupo = async (req, res) => {
   const { chatId, usuarioId } = req.body;
+  const chat = await Chat.findById(chatId);
+
+  if (chat.adminGrupo.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Sin permiso de agregar usuario");
+    return res.status(403).json({ msg: error.message });
+  }
 
   const agregado = await Chat.findByIdAndUpdate(
     chatId,
@@ -159,8 +165,13 @@ const agregarUserGrupo = async (req, res) => {
 
 const eliminarUserGrupo = async (req, res) => {
   const { chatId, usuarioId } = req.body;
+  const chat = await Chat.findById(chatId);
 
-  // check if the requester is admin
+  if (chat.adminGrupo.toString() !== req.usuario._id.toString()) {
+    console.log("a");
+    const error = new Error("Sin permiso de eliminar usuario");
+    return res.status(403).json({ msg: error.message });
+  }
 
   const eliminado = await Chat.findByIdAndUpdate(
     chatId,
