@@ -4,7 +4,7 @@ const mensajeSchema = mongoose.Schema(
   {
     emisor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Usuario",
     },
     contenido: {
       type: String,

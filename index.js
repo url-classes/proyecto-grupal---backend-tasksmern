@@ -6,6 +6,7 @@ import UsuarioRoutes from "./routes/usuarioRoutes.js";
 import ProyectoRoutes from "./routes/proyectosRoutes.js";
 import TareaRouters from "./routes/tareaRoutes.js";
 import ChatRoutes from "./routes/chatRoutes.js";
+import MensajeRoutes from "./routes/mensajeRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
@@ -54,6 +55,7 @@ app.use("/api/usuarios", UsuarioRoutes);
 app.use("/api/proyectos", ProyectoRoutes);
 app.use("/api/tareas", TareaRouters);
 app.use("/api/chat", ChatRoutes);
+app.use("/api/mensajes", MensajeRoutes);
 
 // Middleware for swagger
 app.use(
