@@ -32,7 +32,12 @@ const obtenerProyecto = async (req, res) => {
 
 //para obtener los proyectos de un usuario
 const obtenerTodosLosProyectos = async (req, res) => {
-  await Proyecto.find().where('creador').equals(req.usuario).select('-tareas')
+  await Proyecto.find({
+    $or: [
+      { colaboradores: { $in: req.usuario } },
+      { creador: { $in: req.usuario } },
+    ],
+  }).select('-tareas')
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };
