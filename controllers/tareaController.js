@@ -81,6 +81,37 @@ const eliminar = async (req, res) => {
   }
 };
 
+const cambiarEstado = async (req, res) => {
+  const { id } = req.params;
+
+  const tarea = await Tareas.findById(id).populate("proyecto");
+
+  if (!tarea) {
+    const error = new Error("Tarea no encontrada");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  if (
+    tarea.proyecto.creador.toString() !== req.usuario._id.toString() &&
+    !tarea.proyecto.colaboradores.some(
+      (colaborador) => colaborador._id.toString() === req.usuario._id.toString()
+    )
+  ) {
+    const error = new Error("Acción no válida");
+    return res.status(403).json({ msg: error.message });
+  }
+
+  tarea.estado = !tarea.estado;
+  tarea.completado = req.usuario._id;
+  await tarea.save();
+
+  const tareaAlmacenada = await Tareas.findById(id)
+    .populate("proyecto")
+    .populate("completado");
+
+  res.json(tareaAlmacenada);
+};
+
 const dataTareas = async (req, res) => {
   const { id } = req.params;
 
@@ -97,4 +128,4 @@ const dataTareas = async (req, res) => {
   }
 };
 
-export { crearTarea, actualizar, eliminar, dataTareas };
+export { crearTarea, actualizar, eliminar, cambiarEstado, dataTareas };

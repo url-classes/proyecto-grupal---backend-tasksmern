@@ -4,6 +4,7 @@ import {
   crearTarea,
   actualizar,
   eliminar,
+  cambiarEstado,
   dataTareas,
 
 } from "../controllers/tareaController.js";
@@ -187,6 +188,6 @@ router.get("/:id", checkAuth,dataTareas);
  *        description: Falta colocar el token en el header / token no existe
  */
 
-
+ router.post("/estado/:id", checkAuth, cambiarEstado);
 
 export default router;
