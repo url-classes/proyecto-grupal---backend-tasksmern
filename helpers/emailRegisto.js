@@ -4,6 +4,7 @@ const emailRegistro = async (datos) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
+    secure:false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -20,11 +21,6 @@ const emailRegistro = async (datos) => {
     subject: "Comprueba tu cuenta en TaksMern",
     text: "Comprueba tu cuenta en TaksMern",
     html: `
-   
-        <a href="">Comprobar cuenta</a> </p>
-
-        <p> si tu no creaste esta cuenta, puedes ignorar este mensaje</p>
-
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
         <head>
@@ -241,7 +237,7 @@ const emailRegistro = async (datos) => {
           <div class="v-text-align" style="color: #333333; line-height: 180%; text-align: left; word-wrap: break-word;">
             <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Lato, sans-serif;"><strong><span style="line-height: 32.4px; font-size: 18px;">Hola ${nombre}, </span></strong></span></p>
         <p style="font-size: 14px; line-height: 180%;"><span style="font-family: Lato, sans-serif; font-size: 16px; line-height: 28.8px;">Comprueba tu cuenta de TaskMern.</span></p>
-        <p style="font-size: 14px; line-height: 180%;"><span style="font-family: Lato, sans-serif; font-size: 16px; line-height: 28.8px;">Tu cuenta ya esta lista, solo debes comprobarla haciendo click en el bot&oacute;n <strong>Activar Cuenta</strong></span></p>
+        <p style="font-size: 14px; line-height: 180%;"><span style="font-family: Lato, sans-serif; font-size: 16px; line-height: 28.8px;">Tu cuenta ya esta lista, solo debes comprobarla haciendo click en el bot&oacute;n <strong>ACTIVAR CUENTA</strong></span></p>
           </div>
         
               </td>
