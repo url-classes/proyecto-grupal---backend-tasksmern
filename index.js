@@ -5,11 +5,12 @@ import conectarDB from "./config/db.js";
 import UsuarioRoutes from "./routes/usuarioRoutes.js";
 import ProyectoRoutes from "./routes/proyectosRoutes.js";
 import TareaRouters from "./routes/tareaRoutes.js";
+import ChatRoutes from "./routes/chatRoutes.js";
+import MensajeRoutes from "./routes/mensajeRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
-import {fileURLToPath} from 'url';
-
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(express.json());
@@ -24,36 +25,38 @@ const swaggerSpec = {
     openapi: "3.0.3",
     info: {
       title: "Tasks-Mern Documentation",
-      version: "1.0.0"
+      version: "1.0.0",
     },
     servers: [
       {
-        url: "http://localhost:8000"
-      } 
-    ]
+        url: "http://localhost:8000",
+      },
+    ],
   },
-  
+
   apis: [`${path.join(path.dirname(__filename), "./routes/*.js")}`],
 };
 
-const dominiosPermitidos = [process.env.FRONTEND_URL]
+const dominiosPermitidos = [process.env.FRONTEND_URL];
 const corsOptions = {
-  origin: function(origin, callback) { 
+  origin: function (origin, callback) {
     if (dominiosPermitidos.indexOf(origin) !== -1) {
       //El origen de request esta pemitido
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('NO permitido por CORS'))
+      callback(new Error("NO permitido por CORS"));
     }
-  }
-}
-
+  },
+};
 
 app.use(cors(corsOptions));
 
-app.use('/api/usuarios', UsuarioRoutes);
-app.use('/api/proyectos', ProyectoRoutes);
-app.use('/api/tareas',TareaRouters);
+app.use("/api/usuarios", UsuarioRoutes);
+app.use("/api/proyectos", ProyectoRoutes);
+app.use("/api/tareas", TareaRouters);
+app.use("/api/chat", ChatRoutes);
+app.use("/api/mensajes", MensajeRoutes);
+
 // Middleware for swagger
 app.use(
   "/api-docs",
@@ -64,9 +67,9 @@ app.use(
 const PORT = process.env.PORT || 8000;
 
 const servidor = app.listen(PORT, () => {
-    console.log(`Servidor funcionando en el puerto ${PORT}`);
-  });
-  
+  console.log(`Servidor funcionando en el puerto ${PORT}`);
+});
+
 // Socket.io
 import { Server } from "socket.io";
 
