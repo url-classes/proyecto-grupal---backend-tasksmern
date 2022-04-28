@@ -10,6 +10,7 @@ import {
   nuevoPassword,
   actualizarPerfil,
   actualizarPassword,
+  usuarioAll,
 } from "../controllers/usuarioController.js";
 import checkAuth from "../middleware/authMiddleware.js"
 
@@ -29,4 +30,5 @@ router.route("/olvide-password/:token").get(comprobarToken).post(nuevoPassword);
 router.get("/perfil", checkAuth ,perfil);
 router.put("/perfil/:id", checkAuth, actualizarPerfil);
 router.put('/actualizar-password', checkAuth, actualizarPassword)
+router.get('/usuarioAll',checkAuth, usuarioAll)
 export default router;
