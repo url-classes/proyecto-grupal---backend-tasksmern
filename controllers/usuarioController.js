@@ -33,6 +33,12 @@ const registrar = async (req, res) => {
   }
 };
 
+const usuarioAll = async (req, res) => {
+  const usuarioALL = await Usuario.find();
+  console.log(usuarioAll)
+  res.json(usuarioALL)
+}
+
 const perfil = (req, res) => {
   const { usuario } = req;
   res.json(usuario);
@@ -218,4 +224,5 @@ export {
   nuevoPassword,
   actualizarPerfil,
   actualizarPassword,
+  usuarioAll,
 };
