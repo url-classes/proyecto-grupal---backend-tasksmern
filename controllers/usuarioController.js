@@ -181,6 +181,7 @@ const actualizarPerfil = async (req, res) => {
     usuario.nombre = req.body.nombre;
     usuario.email = req.body.email;
     usuario.web = req.body.web;
+    usuario.imagen = req.body.imagen;
     usuario.telefono = req.body.telefono;
 
     const usuarioActualizado = await usuario.save();

@@ -19,6 +19,11 @@ const usuarioSchema = mongoose.Schema(
       unique: true,
       trim: true,
     },
+    imagen: {
+      type: String,
+      default: null,
+      trim: true,
+    },
     telefono: {
       type: String,
       default: null,
